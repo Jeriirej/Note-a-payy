@@ -47,7 +47,7 @@ const expenseCats=['อาหาร','เดินทาง','ช้อปปิ
 const emojis={'อาหาร':'🍜','เดินทาง':'🚗','ช้อปปิ้ง':'🛍️','บิล/ค่าน้ำไฟ':'💡','สุขภาพ':'💊','บ้าน':'🏠','การศึกษา':'📚','บันเทิง':'🎮','อื่นๆ':'📌','เงินเดือน':'💼','งานเสริม':'💻','ลงทุน':'📈','ของขวัญ':'🎁','ขายของ':'🛒'};
 let data=JSON.parse(localStorage.getItem('nap_entries')||'[]'),goals=JSON.parse(localStorage.getItem('nap_goals')||'[]'),debts=JSON.parse(localStorage.getItem('nap_debts')||'[]');
 let tab='home',month=new Date().toISOString().slice(0,7),kind='expense',debtType='owed',activeGoal=null,theme=localStorage.getItem('nap_theme')||'light',budget=Number(localStorage.getItem('nap_budget')||0),entryImage='',goalImage='';
-document.documentElement.dataset.theme=theme;applyAppearance();
+document.documentElement.dataset.theme=theme;
 function save(){localStorage.setItem('nap_entries',JSON.stringify(data));localStorage.setItem('nap_goals',JSON.stringify(goals));localStorage.setItem('nap_debts',JSON.stringify(debts))}
 function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 function fmtMonth(m){let[y,mo]=m.split('-').map(Number);return new Intl.DateTimeFormat('th-TH',{month:'long',year:'numeric'}).format(new Date(y,mo-1,1))}
@@ -138,6 +138,6 @@ document.querySelectorAll('[data-kind]').forEach(b=>b.addEventListener('click',(
 document.querySelectorAll('[data-debttype]').forEach(b=>b.addEventListener('click',()=>setDebtType(b.dataset.debttype)));
 $('#fab').onclick=openEntry;$('#close').onclick=()=>$('#modal').classList.remove('show');$('#goalClose').onclick=()=>$('#goalModal').classList.remove('show');$('#contribClose').onclick=()=>$('#contribModal').classList.remove('show');$('#debtClose').onclick=()=>$('#debtModal').classList.remove('show');
 ['modal','goalModal','contribModal','debtModal'].forEach(id=>$('#'+id).addEventListener('click',e=>{if(e.target.id===id)$('#'+id).classList.remove('show')}));
-$('#themeBtn').onclick=()=>setTheme(theme==='dark'?'light':'dark');$('#themeBtn').textContent=theme==='dark'?'☀':'☾';render();
+$('#themeBtn').onclick=()=>setTheme(theme==='dark'?'light':'dark');$('#themeBtn').textContent=theme==='dark'?'☀':'☾';applyAppearance();syncThemeControls();render();
 if('serviceWorker'in navigator&&location.protocol.startsWith('http'))window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
 </script></body></html>
